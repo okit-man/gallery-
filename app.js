@@ -29,6 +29,7 @@ function Gallery (element) {
     this.closeModel = this.closeModel.bind(this);
     this.nextImage = this.nextImage.bind(this);
     this.preImage = this.preImage.bind(this);
+    this.selectImage = this.selectImage.bind(this);
 
     // Add event listener to the container
     this.container.addEventListener('click', 
@@ -52,9 +53,10 @@ Gallery.prototype.openModel = function(selectedImage, list) {
         class="${selectedImage.dataset.id === img.dataset.id ? "modal-img selected" : "modal-img"}"/>`;
     }).join(" ");
     this.model.classList.add('open');
-    this.closeBtn.addEventListener('click', this.closeModel)
-    this.nextBtn.addEventListener('click', this.nextImage)
-    this.preBtn.addEventListener('click', this.preImage)
+    this.closeBtn.addEventListener('click', this.closeModel);
+    this.nextBtn.addEventListener('click', this.nextImage);
+    this.preBtn.addEventListener('click', this.preImage);
+    this.modelImages.addEventListener('click', this.selectImage);
 }
 
 Gallery.prototype.setMainImage = function(selectedImage) {
@@ -64,13 +66,44 @@ Gallery.prototype.setMainImage = function(selectedImage) {
 
 Gallery.prototype.closeModel = function() {
     this.model.classList.remove('open'); 
-    this.closeBtn.removeEventListener('click', this.closeModel)
+    this.closeBtn.removeEventListener('click', this.closeModel);
     this.nextBtn.removeEventListener("click", this.nextImage);
     this.preBtn.removeEventListener("click", this.preImage);
+    this.modelImages.removeEventListener("click", this.selectImage);
 }
 
-Gallery.prototype.nextImage = function() {};
-Gallery.prototype.preImage = function () {};
+Gallery.prototype.nextImage = function() {
+    const select = this.modelImages.querySelector('.selected');
+    const next = select.nextElementSibling || this.modelImages.firstElementChild;
+    select.classList.remove('selected');
+    next.classList.add('selected');
+    this.setMainImage(next);
+};
+Gallery.prototype.preImage = function () {
+    const select = this.modelImages.querySelector('.selected')
+    const prev = select.previousElementSibling || this.modelImages.lastElementChild;
+    select.classList.remove('selected');
+    prev.classList.add('selected');
+    this.setMainImage(prev);
+};
+Gallery.prototype.selectImage = function(e) {
+    if (e.target.classList.contains("modal-img")) {
+    //   console.log(e.target);
+      const select = this.modelImages.querySelector('.selected');
+      select.classList.remove('selected');
+
+    this.setMainImage(e.target);
+    e.target.classList.add('selected');
+
+
+
+    //   if (select) {
+    //     select.classList.remove('selected');
+    //   }
+    //   e.target.classList.add('selected');
+    //   this.setMainImage(e.target);
+    }
+}
 
 const mountain = new Gallery(getElement('.mountain'));
 const city = new Gallery(getElement('.city'));
