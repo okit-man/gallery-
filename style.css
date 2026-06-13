@@ -228,7 +228,7 @@ img:hover {
 @media screen and (max-width: 400px) {
  
     .model-content {
-        width: 70%;
+        width: 80%;
         margin: 0 auto;
         margin-top: 20rem;
         position: relative;
