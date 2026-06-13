@@ -79,7 +79,7 @@ Gallery.prototype.nextImage = function() {
     next.classList.add('selected');
     this.setMainImage(next);
 };
-Gallery.prototype.preImage = function () {
+Gallery.prototype.preImage = function() {
     const select = this.modelImages.querySelector('.selected')
     const prev = select.previousElementSibling || this.modelImages.lastElementChild;
     select.classList.remove('selected');
